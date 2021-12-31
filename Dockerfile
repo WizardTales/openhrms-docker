@@ -1,6 +1,9 @@
 FROM ubuntu:20.04
 
 ENV OE_VERSION="14.0"
+# Injecting our own version
+ENV OE_VERSION_SUB="14.1"
+ENV OE_REPO=WizardTales
 ENV WKHTMLTOX_X64=https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.trusty_amd64.deb
 ENV WKHTMLTOX_X32=https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.trusty_i386.deb
 ENV DEBIAN_FRONTEND=noninteractive
@@ -32,7 +35,7 @@ RUN echo -e "\n---- Create ODOO system user ----" \
       && sudo chown $OE_USER:$OE_USER /var/log/$OE_USER \
       && echo -e "\n==== Installing ODOO Server ====" \
       && sudo git clone --depth 1 --branch $OE_VERSION https://www.github.com/odoo/odoo $OE_HOME_EXT/ \
-      && sudo git clone --depth 1 --branch $OE_VERSION https://github.com/CybroOdoo/OpenHRMS $OE_HOME_EXT/OpenHRMS \
+      && sudo git clone --depth 1 --branch $OE_VERSION_SUB https://github.com/$OE_REPO/OpenHRMS $OE_HOME_EXT/OpenHRMS \
       && echo -e "\n---- Create custom module directory ----" \
       && sudo su $OE_USER -c "mkdir $OE_HOME/custom" \
       && sudo su $OE_USER -c "mkdir $OE_HOME/custom/addons" \
